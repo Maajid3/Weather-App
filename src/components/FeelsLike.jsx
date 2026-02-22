@@ -15,7 +15,7 @@ export default function FeelsLike() {
       <div
         className="feels-like"
         title={
-          apprTemp ? `temperature : ${apprTemp}` : "Temperature unavailablle"
+          apprTemp ? `temperature : ${apprTemp}°` : "Temperature unavailablle"
         }
       >
         <div className="headline">

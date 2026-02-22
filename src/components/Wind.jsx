@@ -9,12 +9,12 @@ export default function Wind() {
   }
   return (
     <>
-      <div className="wind-ui">
+      <div className="wind-ui" title={`Wind : ${data?.current?.wind_speed_10m} Km/h`}>
         <div className="headline">
           <AirIcon fontSize="small" sx={{ color: day ? "inherit" : "#ffffff" }}/>
           <span>Wind </span>
           </div>
-        <span>{data?.current?.wind_speed_10m}</span>
+        <span>{data?.current?.wind_speed_10m} Km/h</span>
       </div>
     </>
   );

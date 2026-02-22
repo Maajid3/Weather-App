@@ -12,12 +12,12 @@ export default function Humidity() {
 
   return (
     <>
-      <div className="humidity-ui">
+      <div className="humidity-ui" title={`Wind : ${data?.current?.relative_humidity_2m} %`}>
         <div className="headline">
           <OpacityOutlinedIcon fontSize="small" sx={{ color: day ? "inherit" : "#ffffff" }}/>  
           <span>Humidity </span>
         </div>
-        <span>{data?.current?.relative_humidity_2m}</span>
+        <span>{data?.current?.relative_humidity_2m} %</span>
       </div>
     </>
   );

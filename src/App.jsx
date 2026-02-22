@@ -10,6 +10,7 @@ import HourlyWeather from "./components/HourlyWeather";
 import Loader from "./fallbacks/Loader";
 import Error from "./fallbacks/Error";
 import NotFound from "./fallbacks/Notfound";
+import { useEffect } from "react";
 
 function App() {
   const { city, data, isLoading, isError } = useWeatherData();
@@ -29,6 +30,8 @@ function App() {
       </div>
     );
 
+
+
   return (
     <>
       <main className={`app-container ${isDay ? "day-mode" : "night-mode"}`}>
@@ -42,7 +45,7 @@ function App() {
         ) : (
           <>
             <div className="hero-section">
-              <p className="city-label">{cityName}</p>
+              <p className="city-label" title={cityName}>{cityName}</p>
 
               <div className="temp-card">
                 <Temperature city={city} />
