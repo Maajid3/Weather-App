@@ -10,10 +10,8 @@ export default function useData(city) {
       res.results.length === 0 ||
       res.results[0].status === 404
     ) {
-      return null; 
+      return null;
     }
-
-    console.log(res);
 
     const { latitude, longitude } = res?.results[0];
 
