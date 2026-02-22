@@ -9,7 +9,7 @@ import { useWeatherData } from "./context/WeatherDataContext";
 import HourlyWeather from "./components/HourlyWeather";
 import Loader from "./fallbacks/Loader";
 import Error from "./fallbacks/Error";
-import NotFound from "./fallbacks/Notfound";
+import NotFound from "./fallbacks/NotFound";
 import { useEffect } from "react";
 
 function App() {
