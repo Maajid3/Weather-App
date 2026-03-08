@@ -11,7 +11,7 @@
 
 <!-- Typing Animation -->
 <a href="#">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=62B6CB&center=true&vCenter=true&random=false&width=600&lines=🌤️+Real-time+Weather+Data;🌙+Day+%26+Night+Adaptive+UI;✨+Canvas-based+Weather+Animations;🔍+Smart+City+Search;📱+Fully+Responsive+Design" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=600&size=22&pause=1000&color=62B6CB&center=true&vCenter=true&random=false&width=600&lines=%F0%9F%8C%A4%EF%B8%8F+Real-time+Weather+Data;%F0%9F%8C%99+Day+%26+Night+Adaptive+UI;%E2%9C%A8+Canvas-based+Weather+Animations;%F0%9F%94%8D+Smart+City+Search;%F0%9F%93%B1+Fully+Responsive+Design" alt="Typing SVG" />
 </a>
 
 <br/>
