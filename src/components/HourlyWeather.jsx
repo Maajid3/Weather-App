@@ -10,7 +10,7 @@ function HourlyWeather() {
 
   const { data, day } = useWeatherData();
 
-  const hourlyData = data?.hourly;
+  const hourlyData = data?.weather?.hourly;
   const dataBindHourTemp = hourlyData?.time.map((time, index) => ({
     timeFormat: new Date(time).toLocaleTimeString(undefined, {
       hour: "numeric",

@@ -4,9 +4,8 @@ import { useWeatherData } from "../context/WeatherDataContext";
 import WeatherEffects from "./WeatherEffects";
 
 export default function WeatherBg({ children }) {
-  const { data } = useWeatherData();
-  const isDay = data?.current?.is_day;
-  const bgImage = isDay ? dayBg : nightBg;
+  const { data, day } = useWeatherData();
+  const bgImage = day ? dayBg : nightBg;
 
   return (
     <div
@@ -19,14 +18,13 @@ export default function WeatherBg({ children }) {
         position: "relative",
       }}
     >
-
       <WeatherEffects />
 
       <div
         style={{
           position: "fixed",
           inset: 0,
-          background: isDay
+          background: day
             ? "rgba(180, 210, 255, 0.06)"
             : "rgba(5, 8, 30, 0.28)",
           pointerEvents: "none",

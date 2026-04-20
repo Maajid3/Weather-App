@@ -7,8 +7,11 @@ export default function Temperature() {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="temp-ui" title={`Temperature : ${data?.current?.temperature_2m}°`}>
-      <span>{data?.current?.temperature_2m}°</span>
+    <div
+      className="temp-ui"
+      title={`Temperature : ${data?.weather?.current?.temperature_2m}°`}
+    >
+      <span>{data?.weather?.current?.temperature_2m}°</span>
     </div>
   );
 }

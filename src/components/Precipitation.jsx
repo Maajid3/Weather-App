@@ -7,14 +7,16 @@ export default function Precipitation() {
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
+  const precipitation = data?.weather?.current?.precipitation
   return (
     <>
-      <div className="precipitation-ui" title={`Wind : ${data?.current?.precipitation} mm`}>
+      <div className="precipitation-ui" title={`Wind : ${precipitation} mm`}>
         <div className="headline">
           <WaterDropOutlinedIcon fontSize="small" sx={{ color: day ? "inherit" : "#ffffff" }}/>
           <span>Precipitation </span>
         </div>
-        <span>{data?.current?.precipitation} mm</span>
+        <span>{precipitation} mm</span>
       </div>
     </>
   );

@@ -8,7 +8,7 @@ export default function FeelsLike() {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-  const apprTemp = data?.current?.apparent_temperature;
+  const apprTemp = data?.weather?.current?.apparent_temperature;
 
   return (
     <>

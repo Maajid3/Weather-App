@@ -13,3 +13,9 @@ body {
   overflow: hidden;
   background: rgb(41, 48, 54);
 }
+
+@media (max-width: 600px) {
+  body {
+    overflow-y: auto;
+  }
+}

@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useWeatherData } from "../context/WeatherDataContext";
 
 export default function SearchCity(props) {
-  const { setCity, data } = useWeatherData();
+  const { setCity, data, day } = useWeatherData();
 
   const [input, setInput] = useState("");
 
@@ -14,23 +14,24 @@ export default function SearchCity(props) {
     setCity(input);
   };
 
-  const dayNight = data?.current?.is_day;
-
   return (
     <>
       <div className="search-bar">
-        <form onClick={handleClick}>
+        <form onSubmit={handleClick}>
           <input
             style={{
-              caretColor: `${dayNight ? "black" : "white"}`,
-              color: `${dayNight ? "black" : "white"}`,
+              caretColor: `${day ? "black" : "white"}`,
+              color: `${day ? "black" : "white"}`,
             }}
             type="div "
             placeholder="enter city..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
-          <button style={{ width: "8%" }}>
+          <button
+            onClick={handleClick}
+            style={{ width: "8%", margin: "0.5em" }}
+          >
             <SearchIcon />
           </button>
         </form>

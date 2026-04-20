@@ -14,10 +14,10 @@ export default function WeatherProvider({ children }) {
     localStorage.setItem("city", city);
   }, [city]);
 
-  const { data, isLoading, isError  } = useData(city);
-  
+  const { data, isLoading, isError } = useData(city);
 
-  const day = data?.current?.is_day;
+  const day = data?.weather?.current?.is_day;
+  // console.log(data);
 
   return (
     <Context.Provider

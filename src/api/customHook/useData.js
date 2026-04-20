@@ -4,7 +4,7 @@ import { cityApi, mainApi } from "../apiClient";
 export default function useData(city) {
   const weatherData = async () => {
     const res = await cityApi(city);
-
+    
     if (
       !res?.results ||
       res.results.length === 0 ||
@@ -14,8 +14,13 @@ export default function useData(city) {
     }
 
     const { latitude, longitude } = res?.results[0];
+    const weather = await mainApi(latitude, longitude);
 
-    return await mainApi(latitude, longitude);
+    return {
+      weather,
+      latitude,
+      longitude,
+    };
   };
 
   return useQuery({
