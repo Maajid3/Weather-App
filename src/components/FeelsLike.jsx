@@ -1,4 +1,4 @@
-import { useWeatherData } from "../context/WeatherDataContext";
+import useWeatherData from "../context/useWeatherData";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 
 export default function FeelsLike() {

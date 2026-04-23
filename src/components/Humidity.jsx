@@ -1,4 +1,4 @@
-import { useWeatherData } from "../context/WeatherDataContext";
+import useWeatherData from "../context/useWeatherData";
 
 import OpacityOutlinedIcon from "@mui/icons-material/OpacityOutlined";
 

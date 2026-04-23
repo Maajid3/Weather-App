@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useWeatherData } from "../context/WeatherDataContext";
+import useWeatherData from "../context/useWeatherData";
 
 export default function WeatherEffects() {
-  const { data } = useWeatherData();
-  const isDay = data?.current?.is_day;
+  const { day } = useWeatherData();
+  const isDay = day === true;
   const canvasRef = useRef(null);
   const frameRef = useRef(null);
 
@@ -34,11 +34,9 @@ export default function WeatherEffects() {
       opacity: isDay ? 0.55 + Math.random() * 0.3 : 0.12 + Math.random() * 0.12,
     }));
 
-
     const SUN_X = canvas.width * 0.78;
     const SUN_Y = -60;
 
-   
     const rays = Array.from({ length: 9 }, (_, i) => ({
       angle: 0.28 + i * 0.1 + (Math.random() - 0.5) * 0.07,
       length: canvas.height * (1.1 + Math.random() * 0.6),
@@ -47,7 +45,6 @@ export default function WeatherEffects() {
       speed: 0.0003 + Math.random() * 0.0004,
       baseOpacity: 0.04 + Math.random() * 0.07,
     }));
-
 
     function drawCloud(x, y, scale, opacity) {
       const puffs = [
@@ -83,7 +80,6 @@ export default function WeatherEffects() {
       });
     }
 
- 
     function drawRays(t) {
       const x = SUN_X;
       const y = SUN_Y;
@@ -100,7 +96,6 @@ export default function WeatherEffects() {
         const endX = x + Math.sin(ray.angle) * ray.length;
         const endY = y + Math.cos(ray.angle) * ray.length;
 
-       
         const perpX = Math.cos(ray.angle);
         const perpY = -Math.sin(ray.angle);
         const halfW = ray.width * (0.5 + breathe * 0.5);
@@ -113,7 +108,7 @@ export default function WeatherEffects() {
 
         ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.moveTo(tipX, tipY); 
+        ctx.moveTo(tipX, tipY);
         ctx.lineTo(endX + perpX * halfW, endY + perpY * halfW);
         ctx.lineTo(endX - perpX * halfW, endY - perpY * halfW);
         ctx.closePath();
@@ -123,7 +118,6 @@ export default function WeatherEffects() {
       ctx.restore();
     }
 
-   
     let t = 0;
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);

@@ -1,32 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
-import { cityApi, mainApi } from "../apiClient";
+import { mainApi } from "../apiClient";
 
-export default function useData(city) {
+export default function useData({ latitude, longitude, city }) {
   const weatherData = async () => {
-    const res = await cityApi(city);
-    
-    if (
-      !res?.results ||
-      res.results.length === 0 ||
-      res.results[0].status === 404
-    ) {
-      return null;
-    }
-
-    const { latitude, longitude } = res?.results[0];
     const weather = await mainApi(latitude, longitude);
+
+    // console.log(latitude, longitude, city);
 
     return {
       weather,
       latitude,
       longitude,
+      cityName: city || "Current Location",
     };
   };
 
   return useQuery({
-    queryKey: ["weather", city],
+    queryKey: ["weather", city, latitude, longitude],
     queryFn: weatherData,
-    enabled: !!city,
+    enabled: Boolean(city || (latitude != null && longitude != null)),
+    placeholderData: (previousData) => previousData,
+
     useErrorBoundary: false,
   });
 }

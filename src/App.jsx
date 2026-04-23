@@ -5,17 +5,19 @@ import Wind from "./components/Wind";
 import Humidity from "./components/Humidity";
 import Precipitation from "./components/Precipitation";
 import FeelsLike from "./components/FeelsLike";
-import { useWeatherData } from "./context/WeatherDataContext";
+import useWeatherData from "./context/useWeatherData";
 import HourlyWeather from "./components/HourlyWeather";
 import Loader from "./fallbacks/Loader";
 import Error from "./fallbacks/Error";
 import NotFound from "./fallbacks/NotFound";
-import { useEffect } from "react";
-import Map from "./components/Map.jsx";
+import MapSkeleton from "./skeleton/MapSkeleton.jsx";
+import { lazy, Suspense } from "react";
+
+const Map = lazy(() => import("./components/Map.jsx"));
 
 function App() {
   const { city, data, isLoading, isError, day } = useWeatherData();
-  const cityName = city.toUpperCase();
+  const loc = data?.cityName.split(",")?.[0];
 
   if (isLoading)
     return (
@@ -44,8 +46,8 @@ function App() {
           ) : (
             <>
               <div className="hero-section">
-                <p className="city-label" title={cityName}>
-                  {cityName}
+                <p className="city-label" title={loc}>
+                  {loc}
                 </p>
 
                 <div className="temp-card">
@@ -86,9 +88,11 @@ function App() {
             </>
           )}
         </section>
-        <section className="map-wrapper">
-          <Map />
-        </section>
+        <Suspense fallback={<MapSkeleton />}>
+          <section className="map-wrapper">
+            <Map />
+          </section>
+        </Suspense>
       </main>
     </>
   );

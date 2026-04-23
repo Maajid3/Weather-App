@@ -1,5 +1,5 @@
 import { useRef, useEffect, memo } from "react";
-import { useWeatherData } from "../context/WeatherDataContext";
+import useWeatherData from "../context/useWeatherData";
 import QueryBuilderOutlinedIcon from "@mui/icons-material/QueryBuilderOutlined";
 import BedtimeIcon from "@mui/icons-material/Bedtime";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";

@@ -1,13 +1,14 @@
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import "../styles/loader.css";
-import { useWeatherData } from "../context/WeatherDataContext";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Error() {
-  const { setCity } = useWeatherData();
+  const queryClient = useQueryClient();
+
   const handleClick = () => {
-    window.location.reload();
-    setCity("");
+    queryClient.invalidateQueries({ queryKey: ["weather"] });
   };
+
   return (
     <>
       <div className="error-ui">

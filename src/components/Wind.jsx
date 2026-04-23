@@ -1,4 +1,4 @@
-import { useWeatherData } from "../context/WeatherDataContext";
+import useWeatherData from "../context/useWeatherData";
 import AirIcon from "@mui/icons-material/Air";
 
 export default function Wind() {

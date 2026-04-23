@@ -1,22 +1,5 @@
 import axios from "axios";
 
-export const cityApi = async (city) => {
-  try {
-    const res = await axios.get(
-      "https://geocoding-api.open-meteo.com/v1/search",
-      {
-        params: {
-          name: city,
-        },
-      },
-    );
-    return res.data;
-  } catch (err) {
-    console.log("error fetching data");
-    throw err;
-  }
-};
-
 export const mainApi = async (latitude, longitude) => {
   try {
     const res = await axios.get("https://api.open-meteo.com/v1/forecast", {
@@ -35,4 +18,19 @@ export const mainApi = async (latitude, longitude) => {
     console.log("error fetching data");
     throw err;
   }
+};
+
+export const getCityFromCoords = async (lat, lng) => {
+  const token = import.meta.env.VITE_MAPBOX_API;
+
+  const res = await fetch(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`,
+  );
+
+  const data = await res.json();
+
+  const place = data.features?.[0].context?.[4]?.text;
+  // console.log(place);
+
+  return place || "Current Location";
 };

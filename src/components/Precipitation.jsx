@@ -1,4 +1,4 @@
-import { useWeatherData } from "../context/WeatherDataContext";
+import useWeatherData from "../context/useWeatherData";
 import WaterDropOutlinedIcon from "@mui/icons-material/WaterDropOutlined";
 
 export default function Precipitation() {

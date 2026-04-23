@@ -1,40 +1,50 @@
-import { useState } from "react";
 import "../styles/search.css";
-import SearchIcon from "@mui/icons-material/Search";
-import { useWeatherData } from "../context/WeatherDataContext";
+import useWeatherData from "../context/useWeatherData";
+import NearMeIcon from "@mui/icons-material/NearMe";
+import { Geocoder } from "@mapbox/search-js-react";
 
-export default function SearchCity(props) {
-  const { setCity, data, day } = useWeatherData();
+export default function SearchCity() {
+  const accessToken = import.meta.env.VITE_MAPBOX_API;
+  const { handleRetrieve, handleLocation } = useWeatherData();
 
-  const [input, setInput] = useState("");
+  const handleSuggestError = (error) => {
+    console.error("Mapbox Geocoder suggest error:", error);
+  };
 
-  const handleClick = (e) => {
+  const handleLocationClick = (e) => {
     e.preventDefault();
-    if (input.trim() === "") return;
-    setCity(input);
+    handleLocation();
   };
 
   return (
     <>
-      <div className="search-bar">
-        <form onSubmit={handleClick}>
-          <input
-            style={{
-              caretColor: `${day ? "black" : "white"}`,
-              color: `${day ? "black" : "white"}`,
+      <div className="search-bar" title="search city">
+        <Geocoder
+          accessToken={accessToken}
+          options={{ language: "en", limit: 6 }}
+          onRetrieve={handleRetrieve}
+          onSuggestError={handleSuggestError}
+          theme={{
+            variables: {
+              borderRadius: "20px",
+            },
+          }}
+        />
+        <button
+          type="button"
+          className="searchBtn"
+          onClick={handleLocationClick}
+        >
+          <NearMeIcon
+            titleAccess="Get Location"
+            fontSize="small"
+            sx={{
+              " &:hover": {
+                color: "red",
+              },
             }}
-            type="div "
-            placeholder="enter city..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
           />
-          <button
-            onClick={handleClick}
-            style={{ width: "8%", margin: "0.5em" }}
-          >
-            <SearchIcon />
-          </button>
-        </form>
+        </button>
       </div>
     </>
   );

@@ -1,10 +1,11 @@
 import dayBg from "../assets/day1.jpeg";
 import nightBg from "../assets/night1.jpeg";
-import { useWeatherData } from "../context/WeatherDataContext";
+import useWeatherData from "../context/useWeatherData";
 import WeatherEffects from "./WeatherEffects";
 
 export default function WeatherBg({ children }) {
-  const { data, day } = useWeatherData();
+  const { day } = useWeatherData();
+
   const bgImage = day ? dayBg : nightBg;
 
   return (
