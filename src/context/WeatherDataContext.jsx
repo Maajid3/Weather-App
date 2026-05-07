@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import useData from "../api/customHook/useData";
 import WeatherContext from "./weatherContext";
 import { getCityFromCoords } from "../api/apiClient";
 
 const STORAGE_KEY = "weather-location";
+
 const DEFAULT_LOCATION = {
   longitude: 79.0882,
   latitude: 21.1458,
@@ -11,24 +12,19 @@ const DEFAULT_LOCATION = {
 };
 
 const getInitialLocation = () => {
-  const fallbackCity = localStorage.getItem("city") || DEFAULT_LOCATION.city;
-
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) {
-      return {
-        ...DEFAULT_LOCATION,
-        city: fallbackCity,
-      };
-    }
+
+    if (!stored) return DEFAULT_LOCATION;
 
     const parsed = JSON.parse(stored);
+
     const longitude = Number(parsed?.longitude);
     const latitude = Number(parsed?.latitude);
     const city =
       typeof parsed?.city === "string" && parsed.city.trim()
         ? parsed.city
-        : fallbackCity;
+        : DEFAULT_LOCATION.city;
 
     if (!Number.isFinite(longitude) || !Number.isFinite(latitude)) {
       return {
@@ -37,29 +33,21 @@ const getInitialLocation = () => {
       };
     }
 
-    return {
-      longitude,
-      latitude,
-      city,
-    };
-  } catch {
-    return {
-      ...DEFAULT_LOCATION,
-      city: fallbackCity,
-    };
+    return { longitude, latitude, city };
+  } catch (err) {
+    console.error("Error reading localStorage:", err);
+    return DEFAULT_LOCATION;
   }
 };
 
 export default function WeatherProvider({ children }) {
   const [cord, setCord] = useState(getInitialLocation);
+  const [locErr, setLocErr] = useState(false);
 
+  // Persist location
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cord));
-
-      if (cord.city) {
-        localStorage.setItem("city", cord.city);
-      }
     } catch (error) {
       console.error("Local storage write error:", error);
     }
@@ -70,6 +58,7 @@ export default function WeatherProvider({ children }) {
 
     const geometryCoordinates = feature.geometry?.coordinates;
     const propertyCoordinates = feature.properties?.coordinates;
+
     const longitude = Number(
       geometryCoordinates?.[0] ?? propertyCoordinates?.longitude,
     );
@@ -77,45 +66,61 @@ export default function WeatherProvider({ children }) {
       geometryCoordinates?.[1] ?? propertyCoordinates?.latitude,
     );
 
-    if (!Number.isFinite(longitude) || !Number.isFinite(latitude)) return;
+    if (!Number.isFinite(longitude) || !Number.isFinite(latitude)) {
+      console.warn("Invalid coordinates from feature:", feature);
+      return;
+    }
+
+    const newCity =
+      feature.properties?.full_address ||
+      feature.properties?.name_preferred ||
+      feature.properties?.name ||
+      cord.city;
 
     setCord({
       longitude,
       latitude,
-      city:
-        feature.properties?.full_address ||
-        feature.properties?.name_preferred ||
-        feature.properties?.name ||
-        "Selected location",
+      city: newCity,
     });
   };
 
   const setCity = (city) => {
-    setCord((previous) => ({
-      ...previous,
-      city,
+    setCord((prev) => ({
+      ...prev,
+      city: city || prev.city,
     }));
   };
 
   const handleLocation = () => {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      setLocErr(true);
+      return;
+    }
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
+        try {
+          setLocErr(false);
 
-        const city = await getCityFromCoords(lat, lng);
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
 
-        setCord((previous) => ({
-          ...previous,
-          latitude: lat,
-          longitude: lng,
-          city,
-        }));
+          const city = await getCityFromCoords(lat, lng);
+
+          setCord((prev) => ({
+            ...prev,
+            latitude: lat,
+            longitude: lng,
+            city: city || prev.city,
+          }));
+        } catch (err) {
+          console.error("Failed to fetch city:", err);
+          setLocErr(true);
+        }
       },
       (error) => {
-        console.error("Location error:", error);
+        console.error("Geolocation error:", error);
+        setLocErr(true);
       },
     );
   };
@@ -127,21 +132,24 @@ export default function WeatherProvider({ children }) {
   });
 
   const day = data?.weather?.current?.is_day === 1;
+  console.log(day);
+
+  const value = useMemo(
+    () => ({
+      data,
+      isLoading,
+      isError,
+      city: cord.city,
+      setCity,
+      day,
+      handleRetrieve,
+      handleLocation,
+      locErr,
+    }),
+    [data, isLoading, isError, cord.city, day, locErr],
+  );
 
   return (
-    <WeatherContext.Provider
-      value={{
-        data,
-        isLoading,
-        isError,
-        city: cord.city,
-        setCity,
-        day,
-        handleRetrieve,
-        handleLocation,
-      }}
-    >
-      {children}
-    </WeatherContext.Provider>
+    <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
   );
 }

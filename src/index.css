@@ -1,20 +1,22 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@import "tailwindcss";
 
-body {
-  font-family: "Poppins", sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  background: rgb(41, 48, 54);
-}
+@layer base {
+  .day-mode {
+    --app-text: 15 23 42;
+    --app-muted: 51 65 85;
+  }
 
-@media (max-width: 600px) {
+  .night-mode {
+    --app-text: 248 250 252;
+    --app-muted: 203 213 225;
+  }
+
+  body,
+  #root {
+    min-height: 100dvh;
+  }
+
   body {
-    overflow-y: auto;
+    overflow-x: hidden;
   }
 }

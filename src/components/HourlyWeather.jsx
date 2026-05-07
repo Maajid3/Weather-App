@@ -19,8 +19,6 @@ function HourlyWeather() {
     temperature: hourlyData.temperature_2m[index],
   }));
 
-
-
   useEffect(() => {
     const container = hourlyref.current;
 
@@ -29,7 +27,7 @@ function HourlyWeather() {
     const onWheel = (e) => {
       if (e.deltaY === 0) return;
       e.preventDefault();
-      container.scrollLeft += e.deltaY; 
+      container.scrollLeft += e.deltaY;
     };
 
     container.addEventListener("wheel", onWheel, { passive: false });
@@ -37,18 +35,20 @@ function HourlyWeather() {
     return () => container.removeEventListener("wheel", onWheel);
   }, []);
 
-
   return (
     <>
-      <div className="hour-forecast-ui">
-        <div className="headline">
+      <div className="flex min-h-30 flex-col gap-3 rounded-2xl border border-white/20 bg-white/5 p-4 text-[rgb(var(--app-text))] shadow-[0_12px_40px_rgba(15,23,42,0.14)]  sm:col-span-2">
+        <div className="flex items-center gap-2 text-sm font-medium text-[rgb(var(--app-muted))]">
           <QueryBuilderOutlinedIcon
             fontSize="small"
-            sx={{ color: day ? "inherit" : "#ffffff" }}
+            className={day ? "text-violet-600" : "text-sky-200"}
           />
           <span>Hourly weather</span>
         </div>
-        <div className="hourly-container" ref={hourlyref}>
+        <div
+          className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:thin] [scrollbar-color:rgba(148,163,184,0.6)_transparent]"
+          ref={hourlyref}
+        >
           {dataBindHourTemp?.map((data) => {
             const [hourStr, period] = data.timeFormat.split(" ");
             let hour = parseInt(hourStr);
@@ -70,10 +70,13 @@ function HourlyWeather() {
             }
 
             return (
-              <div className="hourly-weather" key={data.timeFormat}>
-                <span>{data.timeFormat}</span>
+              <div
+                className="flex w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-white/25 bg-white/20 px-2 py-3 text-center text-xs text-[rgb(var(--app-text))] shadow-sm backdrop-blur-md"
+                key={data.timeFormat}
+              >
+                <span className="font-medium">{data.timeFormat}</span>
                 {icon}
-                <span> {data.temperature}°</span>
+                <span className="font-semibold">{data.temperature}°</span>
               </div>
             );
           })}

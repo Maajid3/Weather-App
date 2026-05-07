@@ -21,7 +21,7 @@
 ![React](https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-7.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![MUI](https://img.shields.io/badge/MUI-Icons-007FFF?style=for-the-badge&logo=mui&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-Styled-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-Utility-first-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 <!-- Badges Row 2 -->
 
@@ -101,7 +101,7 @@
 |   <img src="https://skillicons.dev/icons?i=react" width="28" />    | **React 19** — UI library with hooks & context |
 |    <img src="https://skillicons.dev/icons?i=vite" width="28" />    | **Vite 7** — Lightning-fast build tool         |
 | <img src="https://skillicons.dev/icons?i=materialui" width="28" /> | **MUI Icons** — Material Design icon set       |
-|    <img src="https://skillicons.dev/icons?i=css" width="28" />     | **CSS3** — Custom styles & weather animations  |
+|  <img src="https://skillicons.dev/icons?i=tailwind" width="28" />  | **Tailwind CSS** — Utility-first styling       |
 |                                 🔄                                 | **TanStack Query** — Async state & caching     |
 |                                 📡                                 | **Axios** — HTTP client                        |
 |                                 🌐                                 | **Open-Meteo API** — Free weather & geocoding  |
@@ -137,7 +137,7 @@ weatherApp/
 │   │   ├── Error.jsx              # Error boundary UI
 │   │   ├── Loader.jsx             # Loading spinner
 │   │   └── NotFound.jsx           # City not found
-│   ├── styles/                    # CSS modules
+│   ├── styles/                    # Legacy CSS folder removed
 │   ├── App.jsx                    # Root layout
 │   └── main.jsx                   # Entry point
 ├── index.html

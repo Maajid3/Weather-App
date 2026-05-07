@@ -131,10 +131,7 @@ function Map() {
 
   return (
     <>
-      <div
-        ref={mapContainerRef}
-        style={{ width: "100%", height: "100%", borderRadius: "20px" }}
-      />
+      <div ref={mapContainerRef} className="h-full w-full min-h-full" />
     </>
   );
 }
